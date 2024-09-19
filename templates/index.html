@@ -23,10 +23,10 @@
         <ul class="image-list">
             {% for filename in filenames %}
             <li class="image-item">
-                <a href="#" class="image-link" data-src="{{ url_for('uploaded_file', filename=filename) }}">
-                    <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="{{ filename }}"
+                <a href="#" class="image-link" data-src="https://storage.cloud.google.com/{{ bucket_name }}/{{ filename }}">
+                    <img src="https://storage.cloud.google.com/{{ bucket_name }}/{{ filename }}" alt="{{ filename }}"
                         class="image-thumbnail">
-                    <div class="image-name">{{ filename }}</div>
+                    <div class="image-name">{{ filename }}</div> 
                 </a>
             </li>
             {% endfor %}

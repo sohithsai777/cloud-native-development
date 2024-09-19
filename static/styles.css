@@ -22,7 +22,7 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Align to the top */
 }
 
 .container {
@@ -34,8 +34,7 @@ body {
     box-shadow: var(--box-shadow);
 }
 
-h1,
-h2 {
+h1, h2 {
     color: var(--primary-color);
     margin-bottom: 30px;
     text-align: center;
@@ -44,12 +43,11 @@ h2 {
 
 h1 {
     font-size: 2.5em;
-    margin-bottom: 40px;
 }
 
 h2 {
     font-size: 2em;
-    margin-top: 40px;
+    margin-top: 20px; /* Reduced margin for better spacing */
 }
 
 form {
@@ -98,7 +96,6 @@ form {
 }
 
 .file-name-display {
-    /* margin-top: 10px; */
     font-size: 0.9em;
     color: var(--text-color);
     text-align: center;
@@ -220,7 +217,6 @@ form {
         opacity: 0;
         transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
