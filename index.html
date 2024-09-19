@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery Upload</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Image Gallery Upload</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="file-input-wrapper" id="fileInputWrapper">
+                <button type="button" class="btn" id="fileInputBtn">Choose Image</button>
+                <input type="file" name="file" accept="image/*" id="fileInput">
+                <div class="file-name-display" id="fileNameDisplay"></div>
+            </div>
+            <input type="submit" value="Upload" class="submit-btn">
+        </form>
+        <h2>Your Image Gallery</h2>
+        <ul class="image-list">
+            {% for filename in filenames %}
+            <li class="image-item">
+                <a href="#" class="image-link" data-src="{{ url_for('uploaded_file', filename=filename) }}">
+                    <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="{{ filename }}"
+                        class="image-thumbnail">
+                    <div class="image-name">{{ filename }}</div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-content">
+            <img src="" alt="Lightbox Image" class="lightbox-image" id="lightboxImage">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('fileInput');
+            const fileInputWrapper = document.getElementById('fileInputWrapper');
+            const fileInputBtn = document.getElementById('fileInputBtn');
+            const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+            fileInputBtn.addEventListener('click', function () {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function (e) {
+                if (this.files && this.files.length > 0) {
+                    const fileName = this.files[0].name;
+                    fileNameDisplay.textContent = fileName;
+                    fileInputWrapper.classList.add('file-selected');
+                    fileInputBtn.textContent = 'Change Image';
+                } else {
+                    fileNameDisplay.textContent = '';
+                    fileInputWrapper.classList.remove('file-selected');
+                    fileInputBtn.textContent = 'Choose Image';
+                }
+            });
+
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            const closeLightbox = document.querySelector('.close-lightbox');
+
+            document.querySelectorAll('.image-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const imageSrc = this.getAttribute('data-src');
+                    lightboxImage.src = imageSrc;
+                    lightbox.style.display = 'block';
+                });
+            });
+
+            closeLightbox.addEventListener('click', function () {
+                lightbox.style.display = 'none';
+            });
+
+            lightbox.addEventListener('click', function (e) {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
