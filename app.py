@@ -1,21 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for
 from google.cloud import storage
-from google.cloud import pubsub_v1
 import os
 from werkzeug.utils import secure_filename
 import uuid
 
 app = Flask(__name__)
 
-PROJECT_ID = 'your-project-id'
-BUCKET_NAME = 'your-bucket-name'
-TOPIC_NAME = 'image-processing'
+PROJECT_ID = 'total-compiler-435917-g9'
+BUCKET_NAME = 'cloudnative-bucket'
 
 storage_client = storage.Client()
 bucket = storage_client.bucket(BUCKET_NAME)
-
-publisher = pubsub_v1.PublisherClient()
-topic_path = publisher.topic_path(PROJECT_ID, TOPIC_NAME)
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -35,7 +30,6 @@ def upload_file():
             )
             
             message = f"{BUCKET_NAME},{unique_filename}".encode('utf-8')
-            publisher.publish(topic_path, message)
             
             return redirect(url_for('upload_file'))
     
