@@ -1,13 +1,13 @@
 steps:
-  # Step 1: Build the Docker image for Cloud Run service
+  # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/total-compiler-435917-g9/cloud-native-development', '.']
 
-  # Step 2: Push the Docker image to Google Artifact Registry
+  # Step 2: Push the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/total-compiler-435917-g9/cloud-native-development']
 
-  # Step 3: Deploy the Docker image to Cloud Run
+  # Step 3: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
@@ -21,8 +21,9 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
-      
-# Set IAM service account (if required)
-serviceAccount: cloud-build-deployer@total-compiler-435917-g9.iam.gserviceaccount.com
+
+options:
+  logging: CLOUD_LOGGING_ONLY
 
 timeout: '900s'
+serviceAccount: cloud-build-deployer@total-compiler-435917-g9.iam.gserviceaccount.com
