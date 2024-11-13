@@ -21,24 +21,13 @@
         </form>
         <h2>Your Image Gallery</h2>
         <ul class="image-list">
-            {% for filename in filenames %}
+            {% for image in images %}
             <li class="image-item">
-                <a href="#" class="image-link" data-src="https://storage.cloud.google.com/{{ bucket_name }}/{{ filename }}">
-                    <img src="https://storage.cloud.google.com/{{ bucket_name }}/{{ filename }}" alt="{{ filename }}"
-                        class="image-thumbnail">
-                    <div class="image-name">{{ filename }}</div> 
-                </a>
+                <img src="{{ image.image_url }}" alt="Image" class="image-thumbnail">
+                <div class="image-description">{{ image.description }}</div>
             </li>
             {% endfor %}
         </ul>
-    </div>
-
-    <!-- Lightbox -->
-    <div id="lightbox" class="lightbox">
-        <span class="close-lightbox">&times;</span>
-        <div class="lightbox-content">
-            <img src="" alt="Lightbox Image" class="lightbox-image" id="lightboxImage">
-        </div>
     </div>
 
     <script>
@@ -62,30 +51,6 @@
                     fileNameDisplay.textContent = '';
                     fileInputWrapper.classList.remove('file-selected');
                     fileInputBtn.textContent = 'Choose Image';
-                }
-            });
-
-            // Lightbox functionality
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImage = document.getElementById('lightboxImage');
-            const closeLightbox = document.querySelector('.close-lightbox');
-
-            document.querySelectorAll('.image-link').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const imageSrc = this.getAttribute('data-src');
-                    lightboxImage.src = imageSrc;
-                    lightbox.style.display = 'block';
-                });
-            });
-
-            closeLightbox.addEventListener('click', function () {
-                lightbox.style.display = 'none';
-            });
-
-            lightbox.addEventListener('click', function (e) {
-                if (e.target === lightbox) {
-                    lightbox.style.display = 'none';
                 }
             });
         });
